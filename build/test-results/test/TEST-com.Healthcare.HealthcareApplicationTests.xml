@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.Healthcare.HealthcareApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-30T22:46:58.043Z" hostname="EG-GHPS7K3" time="0.607">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.Healthcare.HealthcareApplicationTests" time="0.607"/>
+  <system-out><![CDATA[01:46:57.081 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.Healthcare.HealthcareApplicationTests]: HealthcareApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:46:57.175 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.Healthcare.HealthcareApplication for test class com.Healthcare.HealthcareApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-10-01T01:46:57.568+03:00  INFO 13192 --- [Healthcare] [    Test worker] c.Healthcare.HealthcareApplicationTests  : Starting HealthcareApplicationTests using Java 17.0.16 with PID 13192 (started by gehad in /home/gehad/healthcare-management-system)
+2025-10-01T01:46:57.570+03:00  INFO 13192 --- [Healthcare] [    Test worker] c.Healthcare.HealthcareApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+2025-10-01T01:46:58.037+03:00  INFO 13192 --- [Healthcare] [    Test worker] c.Healthcare.HealthcareApplicationTests  : Started HealthcareApplicationTests in 0.737 seconds (process running for 1.707)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

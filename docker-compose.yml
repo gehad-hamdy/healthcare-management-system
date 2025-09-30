@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/healthcare
+      - SPRING_DATASOURCE_USERNAME=healthcare_user
+      - SPRING_DATASOURCE_PASSWORD=healthcare_pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    networks:
+      - healthcare-network
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=healthcare
+      - POSTGRES_USER=healthcare_user
+      - POSTGRES_PASSWORD=healthcare_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - healthcare-network
+
+volumes:
+  postgres_data:
+
+networks:
+  healthcare-network:

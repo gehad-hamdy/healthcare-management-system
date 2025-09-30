@@ -1,0 +1,30 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/healthcare
+        username: healthcare_user
+        password: healthcare_pass
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    jackson:
+        serialization:
+            write-dates-as-timestamps: false
+
+server:
+    port: 8080
+    address: 0.0.0.0
+
+logging:
+    level:
+        com.healthcare: DEBUG
+        org.hibernate.SQL: DEBUG
+
+openai:
+    api:
+        key: ${OPENAI_API_KEY:}
+        url: https://api.openai.com/v1/chat/completions
