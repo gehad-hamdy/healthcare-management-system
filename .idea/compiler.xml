@@ -7,7 +7,7 @@
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.40/398c6d2d7c42c96b65e78d2ddc9be0058c163453/lombok-1.18.40.jar" />
         </processorPath>
-        <module name="Healthcare.main" />
+        <module name="healthcare.main" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +16,9 @@
       <module name="Healthcare" options="-parameters" />
       <module name="Healthcare.main" options="-parameters" />
       <module name="Healthcare.test" options="-parameters" />
+      <module name="healthcare" options="-parameters" />
+      <module name="healthcare.main" options="-parameters" />
+      <module name="healthcare.test" options="-parameters" />
     </option>
   </component>
 </project>
