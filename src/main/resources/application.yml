@@ -24,7 +24,21 @@ logging:
         com.healthcare: DEBUG
         org.hibernate.SQL: DEBUG
 
+# AI Configuration
+app:
+    ai:
+      enabled: true
+
 openai:
     api:
         key: ${OPENAI_API_KEY:}
         url: https://api.openai.com/v1/chat/completions
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info
+    endpoint:
+        health:
+            show-details: always
