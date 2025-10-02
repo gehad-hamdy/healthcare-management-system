@@ -40,7 +40,7 @@ public class Patient {
     @Column(name = "medical_record_number", unique = true)
     private String medicalRecordNumber;
 
-    @Column(columnDefinition = "JSONB")
+    @Column(columnDefinition = "TEXT")
     private String address;
 
     @CreationTimestamp

@@ -2,6 +2,7 @@ package com.healthcare.controller;
 
 import com.healthcare.dto.FacilityDTO;
 import com.healthcare.dto.PageRequestDTO;
+import com.healthcare.dto.PatientDTO;
 import com.healthcare.model.Facility;
 import com.healthcare.service.FacilityService;
 import jakarta.validation.Valid;
@@ -59,5 +60,25 @@ public class FacilityController {
     public ResponseEntity<Void> deleteFacility(@PathVariable Long id) {
         facilityService.softDeleteFacility(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Add this method to FacilityController.java
+    @GetMapping("/{facilityId}/patients")
+    public ResponseEntity<Page<PatientDTO>> getPatientsByFacility(
+        @PathVariable Long facilityId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "ASC") String sortDirection,
+        @RequestParam(required = false) String search) {
+
+        PageRequestDTO pageRequest = new PageRequestDTO();
+        pageRequest.setPage(page);
+        pageRequest.setSize(size);
+        pageRequest.setSortBy(sortBy);
+        pageRequest.setSortDirection(sortDirection);
+
+        Page<PatientDTO> patients = facilityService.getPatientsByFacility(facilityId, pageRequest, search);
+        return ResponseEntity.ok(patients);
     }
 }

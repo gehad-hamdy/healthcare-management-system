@@ -31,7 +31,7 @@ public class Facility {
     @Column(nullable = false)
     private FacilityType type;
 
-    @Column(columnDefinition = "JSONB")
+    @Column(columnDefinition = "TEXT")
     private String address;
 
     @CreationTimestamp

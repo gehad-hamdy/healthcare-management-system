@@ -35,9 +35,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// --- Flyway migration ---
-	implementation 'org.flywaydb:flyway-core'
-
 	// --- Database driver ---
 	runtimeOnly 'org.postgresql:postgresql'  // PostgreSQL
 

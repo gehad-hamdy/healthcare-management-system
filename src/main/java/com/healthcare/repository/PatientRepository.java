@@ -4,14 +4,14 @@ import com.healthcare.model.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, Long> {
+public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpecificationExecutor<Patient> {
 
     Page<Patient> findByDeletedAtIsNull(Pageable pageable);
 
@@ -30,8 +30,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
         "LOWER(p.lastName) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<Patient> searchPatientsByFacility(@Param("facilityId") Long facilityId,
         @Param("search") String search, Pageable pageable);
-
-    List<Patient> findByFacilityIdAndDeletedAtIsNull(Long facilityId);
 
     Optional<Patient> findByIdAndDeletedAtIsNull(Long id);
 
