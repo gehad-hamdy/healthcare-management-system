@@ -1,5 +1,6 @@
 package com.healthcare.service.impl;
 
+import com.healthcare.mapper.EntityMapper;
 import com.healthcare.service.PatientService;
 
 import com.healthcare.dto.PatientDTO;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +27,11 @@ public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
     private final FacilityRepository facilityRepository;
+    private final EntityMapper patientMapper;
 
     @Override
     public Page<PatientDTO> getAllPatients(PageRequestDTO pageRequest, String search) {
-        Pageable pageable = createPageable(pageRequest);
+        Pageable pageable = patientMapper.createPageable(pageRequest);
         Page<Patient> patients;
 
         if (search != null && !search.trim().isEmpty()) {
@@ -39,14 +40,15 @@ public class PatientServiceImpl implements PatientService {
             patients = patientRepository.findByDeletedAtIsNull(pageable);
         }
 
-        return patients.map(this::convertToDTO);
+        return patients.map(patientMapper::toPatientDTO);
     }
 
     @Override
     public PatientDTO getPatientById(Long id) {
         Patient patient = patientRepository.findByIdAndDeletedAtIsNull(id)
             .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + id));
-        return convertToDTO(patient);
+
+        return patientMapper.toPatientDTO(patient);
     }
 
     @Transactional
@@ -75,7 +77,7 @@ public class PatientServiceImpl implements PatientService {
             .build();
 
         Patient saved = patientRepository.save(patient);
-        return convertToDTO(saved);
+        return patientMapper.toPatientDTO(saved);
     }
 
     @Transactional
@@ -98,17 +100,11 @@ public class PatientServiceImpl implements PatientService {
             throw new IllegalArgumentException("Medical record number already exists: " + patientDTO.getMedicalRecordNumber());
         }
 
-        patient.setFirstName(patientDTO.getFirstName());
-        patient.setLastName(patientDTO.getLastName());
-        patient.setEmail(patientDTO.getEmail());
-        patient.setPhone(patientDTO.getPhone());
-        patient.setDateOfBirth(patientDTO.getDateOfBirth());
-        patient.setGender(patientDTO.getGender());
-        patient.setMedicalRecordNumber(patientDTO.getMedicalRecordNumber());
-        patient.setAddress(patientDTO.getAddress());
+        updatePatientFields(patient, patientDTO);
 
         Patient updated = patientRepository.save(patient);
-        return convertToDTO(updated);
+
+        return patientMapper.toPatientDTO(updated);
     }
 
     @Transactional
@@ -123,7 +119,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Page<PatientDTO> getPatientsByFacility(Long facilityId, PageRequestDTO pageRequest, String search) {
-        Pageable pageable = createPageable(pageRequest);
+        Pageable pageable = patientMapper.createPageable(pageRequest);
         Page<Patient> patients;
 
         if (search != null && !search.trim().isEmpty()) {
@@ -132,12 +128,12 @@ public class PatientServiceImpl implements PatientService {
             patients = patientRepository.findByFacilityIdAndDeletedAtIsNull(facilityId, pageable);
         }
 
-        return patients.map(this::convertToDTO);
+        return patients.map(patientMapper::toPatientDTO);
     }
 
     @Override
     public Page<PatientDTO> searchPatients(PageRequestDTO pageRequest, PatientSearchDTO searchDTO) {
-        Pageable pageable = createPageable(pageRequest);
+        Pageable pageable = patientMapper.createPageable(pageRequest);
         Page<Patient> patients = patientRepository.findAll((root, query, criteriaBuilder) -> {
             var predicates = criteriaBuilder.conjunction();
 
@@ -177,27 +173,17 @@ public class PatientServiceImpl implements PatientService {
             return predicates;
         }, pageable);
 
-        return patients.map(this::convertToDTO);
+        return patients.map(patientMapper::toPatientDTO);
     }
 
-    private PatientDTO convertToDTO(Patient patient) {
-        PatientDTO dto = new PatientDTO();
-        dto.setId(patient.getId());
-        dto.setFacilityId(patient.getFacility().getId());
-        dto.setFirstName(patient.getFirstName());
-        dto.setLastName(patient.getLastName());
-        dto.setEmail(patient.getEmail());
-        dto.setPhone(patient.getPhone());
-        dto.setDateOfBirth(patient.getDateOfBirth());
-        dto.setGender(patient.getGender());
-        dto.setMedicalRecordNumber(patient.getMedicalRecordNumber());
-        dto.setAddress(patient.getAddress());
-        return dto;
-    }
-
-    private Pageable createPageable(PageRequestDTO pageRequest) {
-        Sort sort = Sort.by(pageRequest.getSortDirection().equalsIgnoreCase("DESC") ?
-            Sort.Direction.DESC : Sort.Direction.ASC, pageRequest.getSortBy());
-        return PageRequest.of(pageRequest.getPage(), pageRequest.getSize(), sort);
+    private void updatePatientFields(Patient patient, PatientDTO patientDTO) {
+        patient.setFirstName(patientDTO.getFirstName());
+        patient.setLastName(patientDTO.getLastName());
+        patient.setEmail(patientDTO.getEmail());
+        patient.setPhone(patientDTO.getPhone());
+        patient.setDateOfBirth(patientDTO.getDateOfBirth());
+        patient.setGender(patientDTO.getGender());
+        patient.setMedicalRecordNumber(patientDTO.getMedicalRecordNumber());
+        patient.setAddress(patientDTO.getAddress());
     }
 }
