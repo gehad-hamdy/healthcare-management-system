@@ -147,7 +147,3 @@ curl -X POST http://localhost:8080/api/patients \
 ```bash
 curl http://localhost:8080/actuator/health
 ````
-## AI Provider Check
-```bash
-curl http://localhost:8080/api/debug/ai-provider
-```
