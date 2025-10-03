@@ -1,24 +1,21 @@
 package com.healthcare.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import java.util.Map;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Schema(description = "Chat request with natural language query")
 public class ChatRequest {
+
     @NotBlank(message = "Query cannot be blank")
-    @Size(min = 1, max = 1000, message = "Query must be between 1 and 1000 characters")
+    @Schema(description = "Natural language query about patients or facilities",
+        example = "List sample patient profiles")
     private String query;
-
-    private String sessionId;
-    private Map<String, Object> context;
-
-    public ChatRequest(String query) {
-        this.query = query;
-    }
 }

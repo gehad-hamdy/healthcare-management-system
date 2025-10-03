@@ -1,6 +1,7 @@
 package com.healthcare.repository;
 
 import com.healthcare.model.Patient;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpecificationExecutor<Patient> {
 
     Page<Patient> findByDeletedAtIsNull(Pageable pageable);
+
+    @Query("SELECT p FROM Patient p WHERE p.deletedAt IS NULL")
+    List<Patient> findPatientsByDeletedAtIsNull(Pageable pageable);
 
     Page<Patient> findByFacilityIdAndDeletedAtIsNull(Long facilityId, Pageable pageable);
 
@@ -37,4 +41,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
 
     @Query("SELECT COUNT(p) FROM Patient p WHERE p.deletedAt IS NULL")
     long countActivePatients();
+
+    long countByDeletedAtIsNull();
 }

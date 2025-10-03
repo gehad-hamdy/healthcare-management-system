@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.6'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.2.4'
+	id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com'
@@ -25,34 +25,37 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot Starters
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// HTTP Client for OpenAI API calls
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Database
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// JSON Processing
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// --- Database driver ---
-	runtimeOnly 'org.postgresql:postgresql'  // PostgreSQL
+	// API Documentation
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
-	// --- API Documentation (Swagger/OpenAPI) ---
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
-
-	// --- AI Integration (HTTP client) ---
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
-	// --- Testing ---
+	// Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
 
-	// Integration testing with PostgreSQL
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation 'org.testcontainers:junit-jupiter:1.20.1'
-	testImplementation 'org.testcontainers:postgresql:1.20.1'
+	// Optional: Add for better HTTP client (if needed)
+	implementation 'io.projectreactor.netty:reactor-netty'
 }
 
 tasks.named('test') {

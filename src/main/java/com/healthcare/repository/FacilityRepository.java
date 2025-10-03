@@ -1,6 +1,7 @@
 package com.healthcare.repository;
 
 import com.healthcare.model.Facility;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,4 +27,9 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
     Long countPatientsByFacilityId(Long facilityId);
 
     Optional<Facility> findByIdAndIsActiveTrue(Long id);
+
+    @Query("SELECT f.type, COUNT(f) FROM Facility f WHERE f.isActive = true GROUP BY f.type")
+    List<Object[]> countFacilitiesByType();
+
+    long countByIsActiveTrue();
 }

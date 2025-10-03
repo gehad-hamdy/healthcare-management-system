@@ -54,8 +54,6 @@ public class GlobalExceptionHandler {
 
         ChatResponse errorResponse = ChatResponse.builder()
             .answer("I apologize, but an unexpected error occurred. Our team has been notified. Please try again later.")
-            .source("SYSTEM_ERROR")
-            .timestamp(LocalDateTime.now())
             .build();
 
         return ResponseEntity.internalServerError().body(errorResponse);

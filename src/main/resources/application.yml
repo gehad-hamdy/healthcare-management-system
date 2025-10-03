@@ -14,6 +14,13 @@ spring:
     jackson:
         serialization:
             write-dates-as-timestamps: false
+    ai:
+      openai:
+          api-key: ${OPENAI_API_KEY:}
+          chat:
+             options:
+               model: gpt-3.5-turbo
+               temperature: 0.1
 
 server:
     port: 8080
@@ -27,12 +34,14 @@ logging:
 # AI Configuration
 app:
     ai:
-      enabled: true
+        openai:
+            enabled: true
+            api-key: ${OPENAI_API_KEY:}
+            api-url: https://api.openai.com/v1/chat/completions
+            model: gpt-3.5-turbo
+        local:
+            enabled: true
 
-openai:
-    api:
-        key: ${OPENAI_API_KEY:}
-        url: https://api.openai.com/v1/chat/completions
 
 management:
     endpoints:
