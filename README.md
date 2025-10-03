@@ -119,7 +119,7 @@ docker-compose down
 # With test coverage
 ./gradlew jacocoTestReport
 ````
-###API Testing Examples
+### API Testing Examples
 ```bash
 # Create a facility
 curl -X POST http://localhost:8080/api/facilities \
